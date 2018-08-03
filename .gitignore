@@ -1,2 +1,18 @@
 # Google App Engine generated folder
 appengine-generated/
+node_modules/
+
+.idea
+.npm
+.tmp
+.vscode/
+coverage
+firebase-functions-*.tgz
+integration_test/.firebaserc
+integration_test/*.log
+integration_test/functions/firebase-functions.tgz
+integration_test/functions/package.json
+lib
+npm-debug.log
+typings
+yarn.lock
