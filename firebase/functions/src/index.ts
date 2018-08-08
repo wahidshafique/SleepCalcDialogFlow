@@ -19,9 +19,20 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest(
     console.log("Dialogflow Request body: " + JSON.stringify(request.body));
 
     function welcomeHandler(_agent) {
-      const rawToday = moment();
-      const today = rawToday.tz("America/Toronto");
+      const conv = _agent.conv();
+      conv.ask(
+        `Welcome to Sleep Calc. Before we begin, I need to know your timezone. What city are you currently in ?`
+      );
+      _agent.add(conv);
+    }
 
+    function wakeHandler(_agent) {
+      const cityContext = _agent.getContext("city");
+      const parsedCity = cityContext.parameters.city.split(" ").join("_");
+      console.log("city context is", cityContext);
+      const rawToday = moment();
+      const today = rawToday.tz(`America/${parsedCity}`); //TODO: make this modular, not just restricted to Americas
+      console.log("today ", today);
       const greet = getGreeting(today);
 
       const conv = _agent.conv();
@@ -43,6 +54,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest(
     // Run the proper function handler based on the matched Dialogflow intent name
     const intentMap = new Map();
     intentMap.set("Default Welcome Intent", welcomeHandler);
+    intentMap.set("get_city", wakeHandler);
     intentMap.set("Default Fallback Intent", fallback);
     agent.handleRequest(intentMap);
   }

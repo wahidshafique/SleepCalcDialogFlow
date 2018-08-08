@@ -1,5 +1,5 @@
 const timeToFallAsleep = 15;
-const cycle = 90;
+const sleepCycle = 90;
 const minInHour = 60;
 const hourBase = 12;
 
@@ -37,7 +37,7 @@ export function checkGetUpTime(date) {
       startTimeArr.hours,
       parseInt(startTimeArr.min),
       startTimeArr.dayHalf,
-      cycle
+      sleepCycle
     );
     if (startTimeArr.min < 10) {
       startTimeArr.min = "0" + startTimeArr.min;
